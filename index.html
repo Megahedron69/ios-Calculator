@@ -12,16 +12,16 @@
       margin: 0;
       padding: 0;
       user-select: none;
-      zoom: 50%;
+      zoom: 57%;
     }
     body {
-      background-color: gray;
+      background-color: #fad7bd;
       color: white;
       font-family: "Helvetica Neue", sans-serif;
       margin: 25px;
     }
     .calculator-body {
-      background: black;
+      background:black;
       border-radius: 50px;
       color: white;
       height: 1228px;
@@ -29,6 +29,11 @@
       position: relative;
       width: 610px;
       margin: auto;
+      -moz-box-shadow: 21px 10px 5px #000000;
+      -webkit-box-shadow: 21px 10px 5px #000000;
+      box-shadow: 21px 10px 5px #000000;
+      z-index: 4000;
+      outline: 5px solid #535150;
     }
     .topcontainer {
       display: flex;
@@ -36,6 +41,9 @@
       justify-content: space-between;
       padding: 0px 20px;
       height: 250px;
+    }
+    .time{
+      font-size:larger;
     }
     .output-screen {
       display: flex;
@@ -47,6 +55,8 @@
       margin-bottom: 20px;
       margin-right: 20px;
       text-align: right;
+      overflow:scroll;
+      scrollbar-width: none; 
     }
     .parent {
      display: grid;
@@ -115,6 +125,12 @@
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
+    scale: 1;
+    transition: all 100ms;
+    cursor:grabbing;
+}
+.line:hover{
+  scale:1.07;
 }
 .div17{
     border-radius: 55px;
@@ -138,7 +154,7 @@
         </div>
       </div>
       <!--ANSWER AREA-->
-      <div class="output-screen" id="output"></div>
+      <div class="output-screen" id="output">0</div>
       <div class="numbertable">
          <div class="parent numsops">
 <div class="div1 allclear gray" id="AC">AC</div>
