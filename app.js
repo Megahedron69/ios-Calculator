@@ -1,33 +1,127 @@
-//variables
-let hrs = document.getElementById("hour");
-let min = document.getElementById("minute");
-let ans = document.getElementById("output");
-let ac = document.getElementById("AC");
-let plmi = document.getElementById("pm");
-let per = document.getElementById("perce");
-let divide = document.getElementById("divi");
-let seven = document.getElementById("7");
-let eight = document.getElementById("8");
-let nine = document.getElementById("9");
-let multiply = document.getElementById("mult");
-let four = document.getElementById("4");
-let five = document.getElementById("5");
-let six = document.getElementById("6");
-let minus = document.getElementById("min");
-let one = document.getElementById("1");
-let two = document.getElementById("2");
-let three = document.getElementById("3");
-let plus = document.getElementById("plu");
-let zero = document.getElementById("0");
-let decimal = document.getElementById("dec");
-let equal = document.getElementById("eq");
-let firstnum;
-let secondnum;
-let operator;
-let fans;
-//arrays and objs
+/********************DOM VARIABLES*********************************/
+const hrs = document.getElementById("hour");                                      /*****TO DO********/
+const min = document.getElementById("minute");                                     //1. MAKE COMA SYSTEM ACTIVE
+const ans = document.getElementById("output");                                     //2. ADD BACKSPACE FEATURE
+const ac = document.getElementById("AC");
+const plmi = document.getElementById("pm");
+const per = document.getElementById("perce");
+const divide = document.getElementById("divi");
+const seven = document.getElementById("7");
+const eight = document.getElementById("8");
+const nine = document.getElementById("9");
+const multiply = document.getElementById("mult");
+const four = document.getElementById("4");
+const five = document.getElementById("5");
+const six = document.getElementById("6");
+const minus = document.getElementById("min");
+const one = document.getElementById("1");
+const two = document.getElementById("2");
+const three = document.getElementById("3");
+const plus = document.getElementById("plu");
+const zero = document.getElementById("0");
+const decimal = document.getElementById("dec");
+const equal = document.getElementById("eq");
 
-//Time changing function
+let numinmem = null;
+let operatorinmem = null;
+/********************arrays and objs*********************************/
+let numbersel = [zero, one, two, three, four, five, six, seven, eight, nine];
+/********************PRINTING NUMS AND DECIMAL***********************/
+const coma = (numstre) => {
+  let n = Number(numstre);
+  let value = n.toLocaleString("en"); //coma system works in console
+  return value;
+};
+
+const printnum = (numstr) => {
+  if (ans.textContent === "0") ans.textContent = numstr;
+  else ans.textContent += numstr;
+};
+
+for (let i = 0; i < numbersel.length; i++) {
+  numbersel[i].addEventListener("click", () => {
+    printnum(i);
+  });
+}
+
+decimal.addEventListener("click", function () {
+  if (!ans.textContent.includes(".")) ans.textContent += ".";
+  else console.log("Only 1 decimal can be inserted");
+});
+/********************GETTING NUMBERS FROM CALCULATOR*****************/
+const getnum = () => {
+  let firstnum = parseFloat(ans.innerText);
+  console.log("firstnum" + "=" + firstnum);
+};
+
+/********************AUXILARY OPERATIONS[AC,ABS,PERCENT]*************/
+ac.addEventListener("click", function () {
+  ans.textContent = "0";
+  let numinmem = null;
+  let operatorinmem = null;
+  console.log("allcleared");
+});
+plmi.addEventListener("click", function (firstnum) {
+  let abs = JSON.parse(ans.textContent);
+  ans.textContent = abs * -1;
+});
+per.addEventListener("click", function (firstnum) {
+  let pe = JSON.parse(ans.textContent);
+  ans.textContent = pe / 100;
+  let numinmem = null;
+  let operatorinmem = null;
+});
+/********************OPERATOR FUNCTIONS*****************************/
+
+const getResultOfOperationAsStr = () => {
+  const currentValueNum = parseFloat(ans.textContent);
+  const valueNumInMemory = parseFloat(ans.textContent);
+  let newValueNum;
+  if (operatorinmem === "addition") {
+    newValueNum = valueNumInMemory + currentValueNum;
+  } else if (operatorinmem === "subtraction") {
+    newValueNum = valueNumInMemory - currentValueNum;
+  } else if (operatorinmem === "multiplication") {
+    newValueNum = valueNumInMemory * currentValueNum;
+  } else if (operatorinmem === "division") {
+    newValueNum = valueNumInMemory / currentValueNum;
+  }
+  return newValueNum.toString();
+};
+
+operationperf = (operation) => {
+  if (!numinmem) {
+    numinmem = parseFloat(ans.textContent);
+    operatorinmem = operation;
+    ans.textContent = "";
+    return;
+  }
+  operatorinmem = operation;
+  ans.textContent = getResultOfOperationAsStr();
+  ans.textContent = "";
+};
+//operation event listeners
+plus.addEventListener("click", () => {
+  operationperf("addition");
+});
+minus.addEventListener("click", () => {
+  operationperf("subtraction");
+});
+multiply.addEventListener("click", () => {
+  operationperf("multiplication");
+});
+divide.addEventListener("click", () => {
+  operationperf("division");
+});
+equal.addEventListener("click", () => {
+  if (ans.textContent) {
+    ans.textContent = getResultOfOperationAsStr();
+    valueStrInMemory = null;
+    operatorInMemory = null;
+  }
+});
+
+/********************Time changing function*************************/
 function rendertime() {
   let mytime = new Date();
   let htime = mytime.getHours();
@@ -42,100 +136,5 @@ function rendertime() {
     min.textContent = `0${mtime}`;
   } else min.textContent = mtime;
 }
+setInterval(rendertime, 1000);
 rendertime();
-
-//printing numbers on output screen
-one.addEventListener("click", function () {
-  ans.textContent += "1";
-});
-two.addEventListener("click", function () {
-  ans.textContent += "2";
-});
-three.addEventListener("click", function () {
-  ans.textContent += "3";
-});
-four.addEventListener("click", function () {
-  ans.textContent += "4";
-});
-five.addEventListener("click", function () {
-  ans.textContent += "5";
-});
-six.addEventListener("click", function () {
-  ans.textContent += "6";
-});
-seven.addEventListener("click", function () {
-  ans.textContent += "7";
-});
-eight.addEventListener("click", function () {
-  ans.textContent += "8";
-});
-nine.addEventListener("click", function () {
-  ans.textContent += "9";
-});
-zero.addEventListener("click", function () {
-  ans.textContent += "0";
-});
-decimal.addEventListener("click", function () {
-  ans.textContent += ".";
-});
-
-//event listeners for operations
-divide.addEventListener("click", function (firstnum, secondnum) {
-  operator = "/";
-  firstnum = JSON.parse(ans.textContent);
-  console.log(firstnum);
-  ans.textContent = "";
-  fans = firstnum / secondnum;
-});
-
-multiply.addEventListener("click", function (firstnum, secondnum) {
-  operator = "*";
-  firstnum = JSON.parse(ans.textContent);
-  console.log(firstnum);
-  ans.textContent = "";
-  fans = firstnum * secondnum;
-});
-
-plus.addEventListener("click", function (firstnum, secondnum) {
-  operator = "+";
-  firstnum = JSON.parse(ans.textContent);
-  console.log(firstnum);
-  ans.textContent = "";
-  fans = firstnum + secondnum;
-});
-
-minus.addEventListener("click", function (firstnum, secondnum) {
-  operator = "-";
-  firstnum = JSON.parse(ans.textContent);
-  console.log(firstnum);
-  ans.textContent = "";
-  fans = firstnum - secondnum;
-});
-
-equal.addEventListener("click", function () {
-  if (operator === "-") {
-    ans.textContent = fans;
-    console.log(fans);
-  } else if (operator === "+") {
-    ans.textContent = fans;
-    console.log(fans);
-  } else if (operator === "*") {
-    ans.textContent = fans;
-    console.log(fans);
-  } else if (operator === "/") {
-    ans.textContent = fans;
-    console.log(fans);
-  }
-});
-ac.addEventListener("click", function () {
-  ans.textContent = "";
-  console.log("allcleared");
-});
-plmi.addEventListener("click", function (firstnum) {
-  let abs = JSON.parse(ans.textContent);
-  ans.textContent = abs * -1;
-});
-per.addEventListener("click", function (firstnum) {
-  let pe = JSON.parse(ans.textContent);
-  ans.textContent = pe / 100;
-});
